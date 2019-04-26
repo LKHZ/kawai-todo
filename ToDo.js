@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {
+    View, 
+    Text, 
+    TouchableOpacity, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput} from 'react-native';
 import PropTypes from "prop-types";
 
 const {width, height} = Dimensions.get("window");
@@ -18,10 +24,6 @@ export default class ToDo extends React.Component{
         uncompleteToDo: PropTypes.func.isRequired,
         updateToDo: PropTypes.func.isRequired
     }
-    state = {
-        isEditing: false,
-        toDoValue: ""
-    };
     render(){
         const {isEditing, toDoValue} = this.state;
         const {text, id, deleteToDo, isCompleted} = this.props;
@@ -165,4 +167,4 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         width: width / 2
     }
-})
+});

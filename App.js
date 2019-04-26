@@ -1,6 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView, AsyncStorage } from 'react-native';
-import {AppLoading} from "expo";
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+  Dimensions,
+  Platform,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
+import { AppLoading } from "expo";
 import ToDo from "./ToDo";
 import uuidv1 from "uuid/v1";
 
@@ -12,14 +22,13 @@ export default class App extends React.Component {
     newToDo: "",
     loadedToDos: false,
     toDos: {}
-  }
+  };
   componentDidMount = () =>{
     this._loadTodos();
-  }
+  };
   render() {
     const { newToDo, loadedToDos, toDos } = this.state;
 
-  
     if(!loadedToDos){
       return <AppLoading />;
     }
@@ -40,7 +49,7 @@ export default class App extends React.Component {
             underlineColorAndroid={"transparent"}
             />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).reverse.apply().map(toDo => 
+            {Object.values(toDos).reverse().map(toDo => 
               <ToDo 
                 key={toDo.ID} 
                 {...toDo} 
@@ -62,8 +71,8 @@ export default class App extends React.Component {
   
   _loadTodos = async () =>{
     try{
-      const toDos = AsyncStorage.getItem("toDos");
-      console.log(toDos);
+      const toDos = await AsyncStorage.getItem("toDos");
+     // console.log(toDos);
       const parsedToDos = JSON.parse(toDos);
       this.setState({ loadedToDos: true, toDos: parsedToDos || {}});
       //this.setState({ loadedToDos: true })
@@ -98,7 +107,7 @@ export default class App extends React.Component {
       });
     }
   };
-  _deleteToDo = (id) =>{
+  _deleteToDo = id =>{
       this.setState(prevState => {
         const toDos = prevState.toDos;
         delete toDos[id];
@@ -110,7 +119,7 @@ export default class App extends React.Component {
         return { ...newState };
       });
   };
-  _uncompleteToDo = (id) =>{
+  _uncompleteToDo = id =>{
     this.setState(prevState =>{
       const newState = {
         ...prevState,
@@ -126,7 +135,7 @@ export default class App extends React.Component {
       return {...newState};
     });
   };
-  _completeToDo = (id) =>{
+  _completeToDo = id =>{
     this.setState(prevState =>{
       const newState = {
         ...prevState,
@@ -158,17 +167,17 @@ export default class App extends React.Component {
       return {...newState};
     });
   };
-  _saveToDos = (newToDos) =>{
-    console.log(JSON.stringify(newToDos));
+  _saveToDos = newToDos =>{
+    //console.log(JSON.stringify(newToDos));
     const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
-  }
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F23657',
-    alignItems: 'center'
+    backgroundColor: "#F23657",
+    alignItems: "center"
   },
   title: {
     color: "white",
@@ -184,13 +193,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     ...Platform.select({
-      ios:{
-        shadowColor:"rgb(50, 50, 50)",
+      ios: {
+        shadowColor: "rgb(50, 50, 50)",
         shadowOpacity: 0.5,
         shadowRadius: 5,
         shadowOffset: {
           height: -1,
-          width:0
+          width: 0
         }
       },
       android: {
